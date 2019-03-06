@@ -11,42 +11,49 @@ lst = [[0 for _ in range(fieldsX)] for _ in range(fieldsY)] ##creates dynamicall
 positions = product(range(fieldsY), range(fieldsX))
 #mines = randint(1,9)
 
-mines = 10
+mines = 30
 buttonIdentities = []
 #buttonIdentities = {} ##when naming buttons needs to be {}
 
 def change(i):
-	bname=(buttonIdentities[i])
-	buttonPosition = ([int(i/fieldsX),i%fieldsX]) #gets list position
 	buttPosX = int(i/fieldsX)
 	buttPosY = i%fieldsX
-	print(buttPosY,buttPosX)
-	bname.configure(text=lst[buttPosX][buttPosY], relief=tk.SUNKEN)
 	if lst[buttPosX][buttPosY] == "*":
 		print("BOOM you're dead")
-		"""for a in range(0,fieldsX*fieldsY):
-			bname=(buttonIdentities[a])
-			bname.configure(text=lst[buttPosX][buttPosY], relief=tk.SUNKEN)"""
+		buttonIdentities[i].configure(text="*", relief=tk.SUNKEN)
 	else:
-		minesCount = 0
+		bname=(buttonIdentities[i])
+		buttonPosition = ([int(i/fieldsX),i%fieldsX]) #gets list position
+
+		print(buttPosY,buttPosX)
+		bname.configure(text=lst[buttPosX][buttPosY], relief=tk.SUNKEN)
+		checkAround(buttPosX, buttPosY, i)
+
+def checkAround(buttPosX, buttPosY, i):
+	minesCount = 0
+	try:
 		if lst[buttPosX-1][buttPosY] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX+1][buttPosY] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX-1][buttPosY-1] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX][buttPosY-1] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX+1][buttPosY-1] == "*":
-			minesCount =+ 1		
-		elif lst[buttPosX-1][buttPosY+1] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX][buttPosY+1] == "*":
-			minesCount =+ 1
-		elif lst[buttPosX+1][buttPosY+1] == "*":
-			minesCount =+ 1
-		print (minesCount)
-		bname.configure(text=minesCount, relief=tk.SUNKEN)
+			minesCount = minesCount + 1
+		if lst[buttPosX+1][buttPosY] == "*":
+			minesCount = minesCount + 1
+		if lst[buttPosX-1][buttPosY-1] == "*":
+			minesCount = minesCount + 1
+		if lst[buttPosX][buttPosY-1] == "*":
+			minesCount = minesCount + 1
+		if lst[buttPosX+1][buttPosY-1] == "*":
+			minesCount = minesCount + 1	
+		if lst[buttPosX-1][buttPosY+1] == "*":
+			minesCount = minesCount + 1
+		if lst[buttPosX][buttPosY+1] == "*":
+			minesCount = minesCount + 1
+		if lst[buttPosX+1][buttPosY+1] == "*":
+			minesCount = minesCount + 1
+	except:
+		return minesCount
+	bname=(buttonIdentities[i])
+	print (minesCount)
+	bname.configure(text=minesCount, relief=tk.SUNKEN)
+
 for i in range (0,mines):
 	randomX=randint(0,fieldsX-1)
 	randomY=randint(0,fieldsY-1)
